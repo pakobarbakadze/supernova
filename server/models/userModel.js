@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     trim: true,
   },
+  loginCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 // Generate authentication token

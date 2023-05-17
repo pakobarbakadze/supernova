@@ -19,6 +19,10 @@ const authUser = async function (args) {
     const isPassMatch = await bcrypt.compare(password, user.password);
     if (!isPassMatch) return new Error("Invalid password");
 
+    // Increment the login count by 1
+    user.loginCount = (user.loginCount || 0) + 1;
+    await user.save();
+
     const token = await user.generateAuthToken();
 
     return { user, token };

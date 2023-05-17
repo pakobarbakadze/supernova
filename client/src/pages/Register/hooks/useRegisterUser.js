@@ -12,6 +12,7 @@ const REGISTER_USER = gql`
         username
         email
         password
+        loginCount
       }
     }
   }
