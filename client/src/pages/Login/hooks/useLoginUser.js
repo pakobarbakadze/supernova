@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { AuthContext } from "../../../store/authContext";
 
-const REGISTER_USER = gql`
-  mutation Mutation($username: String!, $email: String!, $password: String!) {
-    register(username: $username, email: $email, password: $password) {
+const LOGIN_USER = gql`
+  mutation Mutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
       token
       user {
         _id
@@ -17,13 +17,13 @@ const REGISTER_USER = gql`
   }
 `;
 
-const useRegisterUser = (values) => {
+const useLoginUser = (values) => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const [error, setError] = useState();
 
-  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-    update(proxy, { data: { register: userData } }) {
+  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+    update(proxy, { data: { login: userData } }) {
       login(userData);
       navigate("/");
     },
@@ -33,7 +33,7 @@ const useRegisterUser = (values) => {
     variables: { ...values },
   });
 
-  return { registerUser, loading, error };
+  return { loginUser, loading, error };
 };
 
-export default useRegisterUser;
+export default useLoginUser;

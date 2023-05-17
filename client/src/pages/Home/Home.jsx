@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 
 import { AuthContext } from "../../store/authContext";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Home = () => {
   const { userData } = useContext(AuthContext);
   return (
     <div>
-      <h1>{userData.user.username}</h1>
+      <Navbar />
+      <h1>{userData?.user.username}</h1>
     </div>
   );
 };
