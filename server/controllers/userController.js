@@ -6,7 +6,7 @@ import {
 } from "../validations/userValidation.js";
 
 // @desc    Auth user & get token
-const authUser = async (args) => {
+const authUser = async function (args) {
   const { email, password } = args;
 
   const { error } = loginValidation(args);
@@ -28,7 +28,7 @@ const authUser = async (args) => {
 };
 
 // @desc    Register a new user
-const registerUser = async (args) => {
+const registerUser = async function (args) {
   const { error } = registerValidation(args);
   if (error) return new Error(error.details[0].message);
 
@@ -44,7 +44,7 @@ const registerUser = async (args) => {
 };
 
 // @desc    Get all users
-const getUsers = async () => {
+const getUsers = async function () {
   try {
     const users = await User.find({});
     return users;

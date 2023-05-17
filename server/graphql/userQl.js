@@ -14,7 +14,7 @@ const typeDefs = `
   }
 
   type Query {
-    users: [User!]! # Retrieve information about all users.
+    users: [User]! # Retrieve information about all users.
   }
 
   type Mutation {
