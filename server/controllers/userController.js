@@ -4,7 +4,7 @@ import {
   registerValidation,
   loginValidation,
 } from "../validations/userValidation.js";
-import { io } from "../server.js";
+import { io } from "../config/socket.js";
 
 // @desc    Auth user & get token
 const authUser = async function (args) {

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { expressMiddleware } from "@apollo/server/express4";
 import bodyParser from "body-parser";
 import http from "http";
-import { Server } from "socket.io";
+import { configureSocketIO } from "./config/socket.js";
 import connectDB from "./config/db.js";
 import createApolloServer from "./config/apolloServer.js";
 
@@ -16,13 +16,8 @@ dotenv.config();
 // Connect to database
 connectDB();
 
-// Create socketIo.
-export const io = new Server(httpServer, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
+// Configure socketIo.
+configureSocketIO(httpServer);
 
 // Create Apollo Server
 const apolloServer = createApolloServer(httpServer);
