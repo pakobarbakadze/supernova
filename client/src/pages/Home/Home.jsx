@@ -1,21 +1,24 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext } from "react";
 
 import { AuthContext } from "../../store/authContext";
+import useUsersRegistered from "../../hooks/useUsersRegistered";
 
 import "./Home.scss";
+import useMessage from "./hooks/useMessage";
 
 const Home = () => {
   const { userData } = useContext(AuthContext);
-
-  const message = useMemo(() => {
-    const loginCount = userData?.user.loginCount;
-    if (loginCount > 0) return `It’s your ${loginCount}th login.`;
-    else if (userData) return "Welcome";
-  }, [userData]);
+  const { registeredUserCount } = useUsersRegistered();
+  const { userLoginCounterMessage, luckyUserMessage } = useMessage(
+    userData,
+    registeredUserCount
+  );
 
   return (
     <div className="home">
-      <h1>{message}</h1>
+      <h1>{userLoginCounterMessage}</h1>
+      <h2>{luckyUserMessage}</h2>
+      <h2>{`Total users registered: ${registeredUserCount}`}</h2>
     </div>
   );
 };

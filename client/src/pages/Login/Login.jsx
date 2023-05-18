@@ -12,6 +12,7 @@ const Login = () => {
     password: "",
   });
 
+  // eslint-disable-next-line no-unused-vars
   const { loginUser, loading, error } = useLoginUser(values);
 
   return (

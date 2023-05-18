@@ -13,6 +13,7 @@ const Register = () => {
     password: "",
   });
 
+  // eslint-disable-next-line no-unused-vars
   const { registerUser, loading, error } = useRegisterUser(values);
 
   return (

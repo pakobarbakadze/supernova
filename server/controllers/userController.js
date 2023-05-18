@@ -4,6 +4,7 @@ import {
   registerValidation,
   loginValidation,
 } from "../validations/userValidation.js";
+import { io } from "../server.js";
 
 // @desc    Auth user & get token
 const authUser = async function (args) {
@@ -40,6 +41,10 @@ const registerUser = async function (args) {
     const user = new User(args);
     const token = await user.generateAuthToken();
     await user.save();
+
+    // Calculate user count and emit it to client.
+    const userCount = await User.countDocuments();
+    io.emit("userCount", userCount);
 
     return { user, token };
   } catch (e) {

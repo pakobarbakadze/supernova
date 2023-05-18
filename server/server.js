@@ -1,28 +1,33 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { ApolloServer } from "@apollo/server";
-import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { expressMiddleware } from "@apollo/server/express4";
 import bodyParser from "body-parser";
 import http from "http";
+import { Server } from "socket.io";
 import connectDB from "./config/db.js";
-import { typeDefs, resolvers } from "./graphql/userQl.js";
+import createApolloServer from "./config/apolloServer.js";
 
 const PORT = process.env.PORT || 5000;
 const app = express();
 const httpServer = http.createServer(app);
 dotenv.config();
+
+// Connect to database
 connectDB();
 
-// Set up Apollo Server
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+// Create socketIo.
+export const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
 });
-await server.start();
 
-app.use(cors(), bodyParser.json(), expressMiddleware(server));
+// Create Apollo Server
+const apolloServer = createApolloServer(httpServer);
+await apolloServer.start();
+
+app.use(cors(), bodyParser.json(), expressMiddleware(apolloServer));
 
 await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
